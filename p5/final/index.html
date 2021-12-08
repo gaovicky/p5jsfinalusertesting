@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>p5.js example</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap');
+    body {
+      padding: 0;
+      margin: 0;
+    }
+    /* stylize the button https://www.w3schools.com/css/css3_buttons.asp*/
+    /* same features in both buttons */
+    button {
+      font-family: 'Raleway', sans-serif;
+      font-size: 16px;
+      border-radius: 5px;
+      color: #393939; /*charcoal*/
+      background-color: #FACCCC; /*pink*/
+      border: 2px solid #FACCCC; /*pink*/
+      padding: 12px 30px; /*height width*/
+      margin-bottom: 20px;
+      margin-left: 355px;
+    }
+    /*change color when pressed*/
+    button:hover {
+      background-color: #324266; /*navy blue*/
+      border: 2px solid #324266; /*navy blue*/
+      color: #F8F8F8; /*light grey*/
+    }
+    /*style input box*/
+    input {
+      font-family: 'Raleway', sans-serif;
+      font-size: 16px;
+      width: 360px;
+      padding: 12px 20px;
+      color: #393939; /*charcoal*/
+      background-color: #DDDDDD; /*grey*/
+      border: 2px solid #DDDDDD; /*grey*/
+      margin-left: 7px;
+      border-radius: 5px;
+    }
+    /*add space on the left of "City:"*/
+    p {
+      color:  #393939; /*charcoal*/
+      font-family: 'Raleway', sans-serif;
+      margin-left: 25px;
+      margin-bottom:0px;
+    }
+  </style>
+  <script src="../p5.js"></script>
+  <script src="../addons/p5.sound.js"></script>
+  <script src="sketch.js"></script>
+</head>
+
+<body>
+  <p>City: <input id="city"></input></p>
+  </br>
+  <button id="submit">Submit</button>
+</body>
+
+</html>
