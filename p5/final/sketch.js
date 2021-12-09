@@ -6,6 +6,7 @@ var apiKey = '&appid=11769368576be5c3583c2050bd6ad840'; //apiKey
 var units = '&units=metric';
 var input;
 var rain = []; //empty rain array
+var drizzle = []; //empty drizzle array
 var snow = []; //empty snow array
 var gravity;
 var cloudx = 0;
@@ -30,6 +31,7 @@ function setup() {
 
   for (i = 0; i < 100; i++) {
     rain[i] = new drawRain();
+    drizzle[i] = new drawDrizzle();
   }
 }
 
@@ -51,6 +53,17 @@ function draw() {
   textSize(30);
   textAlign(CENTER,CENTER);
   text("Today's Weather...", 250, 250);
+  textSize(12);
+
+  //current date and time //https://editor.p5js.org/stephaniepaige/sketches/HyQqX_1UG
+  m = month();
+  d = day();
+  y = year();
+  text(m + "/" + d + "/" + y, 250, 50);
+  hr = hour();
+  min = minute();
+  sec = second();
+  text(hr + ":" + min + ":" + sec, 250, 450);
 
   //Conditionals for the different visuals based on the weather
   if (weather) {
@@ -74,9 +87,14 @@ function draw() {
       background(78, 129, 247); //blue
       drawSun();
     } else if (weather.weather[0].main === "Rain") {
-      background(148, 148, 148); //grey
+      background(148); //grey
       for (i = 0; i < rain.length; i++) {
         rain[i].fallingRain();
+      }
+    } else if (weather.weather[0].main === "Drizzle") {
+      background(148); //grey
+      for (i = 0; i < drizzle.length; i++) {
+        drizzle[i].fallingDrizzle();
       }
     } else if (weather.weather[0].main === "Haze") {
       background(210, 218, 236); //light periwinkle
@@ -86,14 +104,14 @@ function draw() {
       drawMist(random(250,500),random(0,250));
       drawMist(random(250,500),random(250,500));
       drawMist(random(250,500),random(250,500));
-      filter(BLUR, 50);
+      filter(BLUR, 5);
     } else if (weather.weather[0].main === "Mist") {
       background(210, 218, 236); //light periwinkle
       drawMist(random(0,250),random(0,250));
       drawMist(random(0,250),random(250,500));
       drawMist(random(250,500),random(0,250));
       drawMist(random(250,500),random(250,500));
-      filter(BLUR, 20); //blur https://p5js.org/reference/#/p5/filter
+      filter(BLUR, 2); //blur https://p5js.org/reference/#/p5/filter
     } else if (weather.weather[0].main === "Snow") {
       background(215, 242, 246); //light cyan
       snow.push(new drawSnow); //one new snowflake
@@ -127,20 +145,41 @@ function draw() {
     textSize(24);
     textStyle(NORMAL);
     text("in " + weather.name, 250, 270); //city name
+
     print(weather.weather[0].main);
   }
 }
 
 class drawRain {
   constructor() {
-    this.x = random(width);
-    this.y = random(-400,0);
+    this.x = random(-200,700);
+    this.y = random(-1000,0);
     this.length = 20;
   }
   fallingRain() {
     noStroke();
     fill(198, 215, 255); //light blue
     ellipse(this.x, this.y, 4, this.length);
+    this.y = this.y + 6
+    if (this.y > 500) {
+      this.y = 0;
+    }
+    if (this.length < 0) {
+      this.length = 0;
+    }
+  }
+} //more dense and larger than drizzle
+
+class drawDrizzle {
+  constructor() {
+    this.x = random(-500, 1000);
+    this.y = random(-1000,0);
+    this.length = 15;
+  }
+  fallingDrizzle() {
+    noStroke();
+    fill(198, 215, 255); //light blue
+    ellipse(this.x, this.y, 2, this.length);
     this.y = this.y + 6
     if (this.y > 500) {
       this.y = 0;
@@ -168,7 +207,7 @@ class drawSnow {
   }
   update() {
     this.vel.add(this.acc); //gravity influence velocity //gets faster as y increases
-    this.vel.limit(this.size * 0.5);
+    this.vel.limit(this.size * 0.18);
     this.pos.add(this.vel);
     this.acc.mult(0); //multiplies the vector by 0
   } //add the velocity to the position
@@ -221,9 +260,9 @@ function drawMist(mistx, misty) {
   push();
   blendMode(LIGHTEST);
   ellipse(mistx, misty - 20, 150);
-  ellipse(mistx - 70, misty - 5, 150);
-  ellipse(mistx + 70, misty, 150);
-  ellipse(mistx + 40, misty + 30, 150);
+  ellipse(mistx - 100, misty, 150);
+  ellipse(mistx + 100, misty, 150);
+  ellipse(mistx + 60, misty + 40, 130);
   ellipse(mistx - 50, misty + 30, 150);
   pop();
 }
